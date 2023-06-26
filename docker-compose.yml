@@ -1,0 +1,76 @@
+version: '3'
+services:
+
+    jobs_app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: jobs_app
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: jobs_app
+            SERVICE_TAGS: dev
+            PHP_IDE_CONFIG: serverName=jobs.local
+        working_dir: /var/www/jobs
+        volumes:
+            - ./:/var/www/jobs
+            - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - app-network
+
+    jobs_webserver:
+        image: nginx:alpine
+        container_name: jobs_webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./:/var/www/jobs
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - app-network
+
+    jobs_db:
+        image: arm64v8/mariadb
+        container_name: jobs_db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: jobs
+            MYSQL_ROOT_PASSWORD: mysql_root_password
+            SERVICE_TAGS: dev
+            SERVICE_NAME: jobs_db
+        volumes:
+            - dbdata:/var/lib/mysql/
+            - ./mysql/my.cnf:/etc/mysql/my.cnf
+        networks:
+            - app-network
+
+    jobs_phpmyadmin:
+        image: arm64v8/phpmyadmin
+        container_name: jobs_phpmyadmin
+        ports:
+            - "8888:80"
+        depends_on:
+            - jobs_db
+        environment:
+            PMA_HOST: jobs_db
+            PMA_USER: root
+            PMA_PASSWORD: mysql_root_password
+            # - PMA_ARBITRARY=1
+        restart: unless-stopped
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    dbdata:
+        driver: local

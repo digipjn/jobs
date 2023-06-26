@@ -1,0 +1,136 @@
+@import "variables";
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: Tahoma, sans-serif;
+    background-color: $gray-100;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.page {
+    width: 94%;
+    max-width: 960px;
+    margin: 2rem auto;
+    position: relative;
+}
+
+.btn {
+    display: inline-block;
+    color: $gray-600;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid $gray-300;
+    border-radius: 3px;
+    background-color: $gray-100;
+    cursor: pointer;
+
+    &--fixed {
+        position: absolute;
+        top: -25px;
+        right: 0px;
+        font-size: 86%;
+    }
+}
+
+h1 {
+    margin-bottom: 2rem;
+    color: $gray-1000;
+}
+
+p + p {
+    margin-top: 1rem;
+}
+
+.jobs {
+    &__item + &__item {
+        margin-top: 1rem;
+    }
+
+    &__title {
+        padding-top: 1rem;
+        border-top: 1px solid $gray-300;
+        margin-bottom: 0.5rem;
+
+        a {
+            color: $gray-800;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__description {
+        color: $gray-600;
+        font-size: 86%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+    }
+}
+
+.job {
+    &__title {
+        padding-top: 1rem;
+        border-top: 1px solid $gray-300;
+        margin-bottom: 2rem;
+
+        a {
+            color: $gray-800;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__date {
+        margin-top: 2rem;
+    }
+
+    &__description {
+        color: $gray-600;
+        font-size: 86%;
+    }
+}
+
+.form {
+    &__group {
+        margin-bottom: 1rem;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: $gray-800;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid $gray-300;
+        border-radius: 3px;
+        font-size: 1rem;
+        line-height: 1.4;
+        color: $gray-800;
+    }
+}
+.errors {
+    color: red;
+    margin-bottom: 1rem;
+
+    .error {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+}
